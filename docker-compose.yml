@@ -1,4 +1,8 @@
 version: '3.8'
+
+networks:
+  freecodecamp:
+
 services:
   dev-db:
     image: postgres:13
@@ -10,5 +14,16 @@ services:
       POSTGRES_DB: nest
     networks:
       - freecodecamp
-networks:
-  freecodecamp:
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - '81:80'
+    depends_on:
+      - dev-db
+    networks:
+      - freecodecamp
